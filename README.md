@@ -2,10 +2,7 @@
 
 [My Notes](notes.md)
 
-I plan to bring the Chess Application to life! In CS 240 we build the chess application and allowed it to thrive on our local machines. Now is the time to bring it to life so that all can play this simple but fun game!
-
-> [!NOTE]
->  If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing.
+I plan to ease the process of answering the very difficult question, "What do you want to watch tonight". With the app, Watch with Me!
 
 ## 🚀 Specification Deliverable
 
@@ -14,13 +11,13 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [X] Proper use of Markdown
 - [X] A concise and compelling elevator pitch
-- [ ] Description of key features
+- [X] Description of key features
 - [ ] Description of how you will use each technology
 - [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
-Chess is the ultimate cash cow—and I’m here to milk it. Introducing Chess Empire, the ONLY app that guarantees you’ll go from pawn to grandmaster in no time. Why struggle when you can dominate? With our ‘exclusive’ training methods and access to the world's top players. Yes, really, you'll crush opponents and pull in the prize money faster than you can say checkmate. The next chess world superstar could be YOU!" 
+Ever struggled with the age-old question, __'What do you want to watch tonight?'__ With  *Watch with Me!* , you’ll never have to ask this again. This simple app lets anyone add movie titles, vote on what you’d like to watch, and instantly find the perfect match that everyone agrees on. It’s quick, fun, and takes the stress out of movie night decisions.
 
 ### Design
 
@@ -37,9 +34,9 @@ sequenceDiagram
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Login with your user
+- Add and vote on movie titles
+- Have the app return a movie everyone likes
 
 ### Technologies
 
