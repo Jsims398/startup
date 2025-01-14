@@ -12,8 +12,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [X] Proper use of Markdown
 - [X] A concise and compelling elevator pitch
 - [X] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [X] Description of how you will use each technology
+- [X] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
@@ -22,17 +22,12 @@ Ever struggled with the age-old question, __'What do you want to watch tonight?'
 ### Design
 
 ![Design image](LoginPhoto.png)
+
+This is where you will be able to login and will be the home page
+
 ![Design image](RateMovie.png)
-![Design image(WhatToWatch.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
+Here you can rate the movies pulled in through the API or added by users.You can also link with a different user and see what movie you both would like to watch
 
 ### Key features
 
@@ -44,12 +39,17 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Uses correct HTML structure for application. 5 HTML pages. One for login, one to sign up, one to rate movies, one to add movies, one to match with other users. Hyperlinks to choice page.
+- **CSS** - Application styling that looks good on different screen sizes, uses good whitespace, color choice and contrast.
+- **JavaScript** - Provides login, choice display, applying votes, adding movies, display other users votes, backend endpoint calls.
+- **React** - Single page section that displays recent shared liked movies in responce to users actions.
+- **Service** - Backend service with endpoints for:
+  - retrieving movies
+  - submitting votes
+  - retrieving vote status
+  - add movies from [themovieDB](https://developer.themoviedb.org/reference/movie-popular-list)
+- **DB/Login** - Store users, choices, and votes in database. Register and login users. Credentials securely stored in database. Can't vote unless authenticated.
+- **WebSocket** - As each user votes, their votes are broadcast to all other users.
 
 ## 🚀 AWS deliverable
 
