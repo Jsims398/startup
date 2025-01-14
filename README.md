@@ -25,7 +25,7 @@ Ever struggled with the age-old question, __'What do you want to watch tonight?'
 
 This is where you will be able to login and will be the home page
 
-![Design image](RateMovie.png)
+![Design image](RateMovie)
 
 Here you can rate the movies pulled in through the API or added by users.You can also link with a different user and see what movie you both would like to watch
 
