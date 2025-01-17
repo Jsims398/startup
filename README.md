@@ -55,9 +55,9 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [X] **Server deployed and accessible with custom domain name** - [My server link](http://what-to-watch.click/).
+- [X] **Server deployed and accessible with custom domain name** - [My server link](https://what-to-watch.click/).
 
-Created the domain what-to-watch.click and registered it with the records using the host 35.173.93.38 that I set up through the CS260 start up configuration. 
+Created the domain what-to-watch.click and registered it with the records using the host 35.173.93.38 that I set up through the CS260 start up configuration. Then edited the caddy file to include https requests.
 
 ## 🚀 HTML deliverable
 
