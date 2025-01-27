@@ -62,6 +62,7 @@ Created the domain what-to-watch.click and registered it with the records using 
 ## 🚀 HTML deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+https://startup.what-to-watch.click/
 
 - [X] **HTML pages** - I did not complete this part of the deliverable.
 - [X] **Proper HTML element usage** - I did not complete this part of the deliverable.
