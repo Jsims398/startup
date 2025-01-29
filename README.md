@@ -64,15 +64,15 @@ Created the domain what-to-watch.click and registered it with the records using 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 https://startup.what-to-watch.click/
 
-- [X] **HTML pages** - I did not complete this part of the deliverable.
-- [X] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [X] **Links** - I did not complete this part of the deliverable.
-- [X] **Text** - I did not complete this part of the deliverable.
-- [X] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [X] **Images** - I did not complete this part of the deliverable.
-- [X] **Login placeholder** - I did not complete this part of the deliverable.
-- [X] **DB data placeholder** - I did not complete this part of the deliverable.
-- [X] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [X] **HTML pages** - I did complete this part of the deliverable. By looking at simons example and using the components to build it.
+- [X] **Proper HTML element usage** - I did complete this part of the deliverable. By reading about the multiple elements and seeing which I wanted to know.
+- [X] **Links** - I did complete this part of the deliverable. By inputing my reference files into my menu item.
+- [X] **Text** - I did complete this part of the deliverable. By using the div to sepperate my information and by adding required text when needed. 
+- [X] **3rd party API placeholder** - I did complete this part of the deliverable. This is located on the add movies page.
+- [X] **Images** - I did complete this part of the deliverable. This is on the add movie page and on the index page
+- [X] **Login placeholder** - I did complete this part of the deliverable. Found on the login page
+- [X] **DB data placeholder** - I did complete this part of the deliverable. Found on the rate movies page. 
+- [X] **WebSocket placeholder** - I did complete this part of the deliverable. Found in the rate movie page. 
 
 ## 🚀 CSS deliverable
 
