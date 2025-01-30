@@ -7,17 +7,17 @@ I plan to ease the process of answering the very difficult question, "What do yo
 ## 🚀 Specification Deliverable
 
 > [!NOTE]
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+> For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [X] Proper use of Markdown
-- [X] A concise and compelling elevator pitch
-- [X] Description of key features
-- [X] Description of how you will use each technology
-- [X] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
-Ever struggled with the age-old question, __'What do you want to watch tonight?'__ With  *Watch with Me!* , you’ll never have to ask this again. This simple app lets anyone add movie titles, vote on what you’d like to watch, and instantly find the perfect match that everyone agrees on. It’s quick, fun, and takes the stress out of movie night decisions.
+Ever struggled with the age-old question, **'What do you want to watch tonight?'** With _Watch with Me!_ , you’ll never have to ask this again. This simple app lets anyone add movie titles, vote on what you’d like to watch, and instantly find the perfect match that everyone agrees on. It’s quick, fun, and takes the stress out of movie night decisions.
 
 ### Design
 
@@ -55,7 +55,7 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [X] **Server deployed and accessible with custom domain name** - [My server link](https://what-to-watch.click/).
+- [x] **Server deployed and accessible with custom domain name** - [My server link](https://what-to-watch.click/).
 
 Created the domain what-to-watch.click and registered it with the records using the host 35.173.93.38 that I set up through the CS260 start up configuration. Then edited the caddy file to include https requests.
 
@@ -64,26 +64,26 @@ Created the domain what-to-watch.click and registered it with the records using 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 https://startup.what-to-watch.click/
 
-- [X] **HTML pages** - I did complete this part of the deliverable. By looking at simons example and using the components to build it.
-- [X] **Proper HTML element usage** - I did complete this part of the deliverable. By reading about the multiple elements and seeing which I wanted to know.
-- [X] **Links** - I did complete this part of the deliverable. By inputing my reference files into my menu item.
-- [X] **Text** - I did complete this part of the deliverable. By using the div to sepperate my information and by adding required text when needed. 
-- [X] **3rd party API placeholder** - I did complete this part of the deliverable. This is located on the add movies page.
-- [X] **Images** - I did complete this part of the deliverable. This is on the add movie page and on the index page
-- [X] **Login placeholder** - I did complete this part of the deliverable. Found on the login page
-- [X] **DB data placeholder** - I did complete this part of the deliverable. Found on the rate movies page. 
-- [X] **WebSocket placeholder** - I did complete this part of the deliverable. Found in the rate movie page. 
+- [x] **HTML pages** - I did complete this part of the deliverable. By looking at simons example and using the components to build it.
+- [x] **Proper HTML element usage** - I did complete this part of the deliverable. By reading about the multiple elements and seeing which I wanted to know.
+- [x] **Links** - I did complete this part of the deliverable. By inputing my reference files into my menu item.
+- [x] **Text** - I did complete this part of the deliverable. By using the div to sepperate my information and by adding required text when needed.
+- [x] **3rd party API placeholder** - I did complete this part of the deliverable. This is located on the add movies page.
+- [x] **Images** - I did complete this part of the deliverable. This is on the add movie page and on the index page
+- [x] **Login placeholder** - I did complete this part of the deliverable. Found on the login page
+- [x] **DB data placeholder** - I did complete this part of the deliverable. Found on the rate movies page.
+- [x] **WebSocket placeholder** - I did complete this part of the deliverable. Found in the rate movie page.
 
 ## 🚀 CSS deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** -
+- [x] **Navigation elements** -
+- [x] **Responsive to window resizing** -
+- [x] **Application elements** -
+- [x] **Application text content** -
+- [x] **Application images** -
 
 ## 🚀 React part 1: Routing deliverable
 
