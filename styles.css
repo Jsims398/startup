@@ -1,132 +1,31 @@
-.body {
-  display: flex;
-  flex-direction: column;
-  min-width: 375px;
-  height: 100vh;
+.padding {
+  padding-top: 25px;
 }
 
-header {
-  flex: 0 80px;
-  background-color: black;
-  color: rgb(7, 0, 208);
-}
-
-main {
-  flex: 0 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-
-main h1 {
-  font-size: 4em;
-  text-align: center;
-  margin: 5px 15px 0 15px;
-  display: inline;
-}
-
-.movie{
+.carousel-item img {
+  max-height: 400px;
   width: 100%;
-  height: 100%;
-  display: grid;
-  text-align: center;
-  justify-content: center;
+  object-fit: contain; /* This will maintain aspect ratio */
 }
-.container{
+
+.carousel-content {
+  height: 300px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-
-}
-.button{
-  flex: 1 1 auto;
-  color: white;
-  border: none;
-  padding: 10px;
-  text-align: center;
-  font-size: 16px;
+  margin: 20px;
 }
 
-title{
-  display: inline;
-  text-align: center;
+.carousel-item {
+  padding: 20px;
 }
 
-footer {
-  flex: 0 30px;
-  color: rgb(7, 0, 208);
+.rating {
+  font-size: 1.2rem;
 }
 
-hr {
-  width: 100%;
-  border: 0;
-  border-top: 1px solid rgb(7, 0, 208);
-}
-
-menu {
-  flex: 1;
-  display: flex;
-  /*  overwrite Bootstrap so the menu does not wrap */
-  flex-direction: row !important;
-  list-style: none;
-  gap: 16px;
-}
-
-.navbar-brand {
-  padding-left: 0.3em;
-  border-bottom: solid rgb(182, 182, 182) thin;
-}
-
-menu a {
-  color: rgb(7, 0, 208);
-}
-
-html {
-  background-color: black;
-  color: white;
-}
-
-main p{
-    margin-top:  0;
-    margin-bottom: 10;
-}
-
-main form div {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3em;
-  margin: px;
-}
-main form{
-    text-align: center;
-}
-
-main form button {
-  margin-top: 10px;
-}
-
-main form div input {
-  width: 100%;
-  text-align: center;
-  padding: 0.2em;
-}
-
-menu .nav-item {
-  padding: 0 0.3em;
-}
-
-footer a {
-  float: right;
-  color: rgb(7, 0, 208);
-}
-
-@media (max-height: 600px) {
-  header {
-    display: none;
-  }
-  footer {
-    display: none;
-  }
+.footerchange {
+  padding-bottom: 20px;
+  text-align: right;
 }
