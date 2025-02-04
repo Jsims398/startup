@@ -78,12 +78,12 @@ https://startup.what-to-watch.click/
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Header, footer, and main content body** -
-- [x] **Navigation elements** -
-- [x] **Responsive to window resizing** -
-- [x] **Application elements** -
-- [x] **Application text content** -
-- [x] **Application images** -
+- [x] **Header, footer, and main content body** - I looked through a lot of the Bootstrap design cases and integrated a lot of them througout my project
+- [x] **Navigation elements** - Similar pattern to Simon but I used Bootstrap
+- [x] **Responsive to window resizing** - Bootstrap implementation
+- [x] **Application elements** - Again used bootstrap and some light js to build the carousel
+- [x] **Application text content** -Bootstrap with some custom css in styles.css
+- [x] **Application images** - Didnt do much with these except for placing them in the right location on the page
 
 ## 🚀 React part 1: Routing deliverable
 
