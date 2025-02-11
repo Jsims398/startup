@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch with Me! - Home</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body class="bg-dark text-light">
+    <div>
+      <nav
+        class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary"
+      >
+        <div class="title-light">
+          <hi>What to Watch</hi>
+        </div>
+        <div class="container-fluid">
+          <div class="navbar-nav">
+            <a class="nav-link" href="index.html">Login</a>
+            <a class="nav-link" href="home.html">Rate Movies</a>
+            <a class="nav-link" href="add.html">Add Movies</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container mt-4">
+        <div class="row mb-4">
+          <h1 class="display-4 mb-3">Movie</h1>
+          <div class="col-md-3 padding">
+            <div class="row gap-2">
+              <button class="btn btn-success row-2">Yes</button>
+              <button class="btn btn-warning row-2">Maybe</button>
+              <button class="btn btn-danger row-2">No</button>
+            </div>
+          </div>
+          <div class="col-md-9 text-center">
+            <div class="movie">
+              <label for="title">Title:</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                required
+                class="form-control bg-secondary text"
+              />
+              <br />
+              <label for="description">Description:</label>
+              <textarea
+                id="description"
+                name="description"
+                required
+                class="form-control bg-secondary textarea"
+              ></textarea>
+              <br />
+            </div>
+          </div>
+        </div>
+
+        <h2 class="mb-3">Movies</h2>
+        <div class="container my-5">
+          <div id="myCarousel" class="carousel slide">
+            <div class="carousel-inner">
+              <!-- Carousel items will be inserted dynamically -->
+            </div>
+
+            <!-- Previous Button -->
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#myCarousel"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+
+            <!-- Next Button -->
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#myCarousel"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="recommended-section">
+          <h2>Recommended Movie</h2>
+          <div class="row align-items-center">
+            <div class="movie">
+              <label for="title">Title:</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                required
+                class="form-control bg-secondary text"
+              />
+              <br />
+              <label for="description">Description:</label>
+              <textarea
+                id="description"
+                name="description"
+                required
+                class="form-control bg-secondary textarea"
+              ></textarea>
+              <br />
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-success px-4">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="watch-with-section mt-4">
+        <h2>Watch with</h2>
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control bg-secondary"
+            placeholder="Username"
+          />
+          <button class="btn btn-success border-white">Add</button>
+        </div>
+      </div> -->
+      </div>
+
+      <script>
+        // Sample data
+        const carouselItems = [
+          {
+            title: "Movie 1",
+            description: "This is the Movie Description",
+            rating: "4.5",
+          },
+          {
+            title: "Movie 2",
+            description: "This is the Movie Description",
+            rating: "3.8",
+          },
+          {
+            title: "Movie 3",
+            description: "This is the Movie Description",
+            rating: "5.0",
+          },
+        ];
+
+        // Function to create carousel items
+        function createCarouselItem(item, isActive) {
+          const carouselItem = document.createElement("div");
+          carouselItem.classList.add("carousel-item");
+          if (isActive) {
+            carouselItem.classList.add("active");
+          }
+
+          carouselItem.innerHTML = `
+            <div class="carousel-content bg-secondary rounded p-4 text-center">
+            <h3 class="text-light">${item.title}</h3>
+            <p class="text-light mb-2">${item.description}</p>
+            <div class="rating">
+                <span class="text-warning">★</span>
+                <span class="text-light">${item.rating}</span>
+            </div>
+            </div>
+        `;
+
+          return carouselItem;
+        }
+
+        // Function to initialize the carousel
+        function initCarousel() {
+          const carouselInner = document.querySelector(
+            "#myCarousel .carousel-inner"
+          );
+
+          // Add carousel items
+          carouselItems.forEach((item, index) => {
+            const carouselItem = createCarouselItem(item, index === 0);
+            carouselInner.appendChild(carouselItem);
+          });
+
+          // Initialize the carousel
+          const carousel = new bootstrap.Carousel(
+            document.getElementById("myCarousel"),
+            {
+              wrap: true,
+              interval: false,
+              keyboard: true,
+            }
+          );
+        }
+
+        // Call the initialization function
+        initCarousel();
+      </script>
+    </div>
+    <footer class="footerchange">
+      <a href="https://github.com/Jsims398/startup/tree/main">Jsims GitHub</a>
+    </footer>
+  </body>
+</html>
