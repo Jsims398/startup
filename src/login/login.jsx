@@ -1,4 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+// NavButton component
+const NavButton = ({ text, url }) => {
+  const navigate = useNavigate();
+  return (
+    <button className="btn btn-success" onClick={() => navigate(url)}>
+      {text}
+    </button>
+  );
+};
 
 export function Login() {
   return (
@@ -34,8 +45,12 @@ export function Login() {
                     placeholder="Password"
                   />
                 </div>
-                <button className="btn btn-success w-100 mb-3">Login</button>
-                <button className="btn btn-info w-100">Create Account</button>
+                {/* <button className="btn btn-success w-100 mb-3">Login</button>
+                <button className="btn btn-info w-100">Create Account</button> */}
+                <div className="d-flex gap-2 justify-content-center">
+                  <NavButton text="Login" url="/home" />
+                  <NavButton text="Create" url="/home" />
+                </div>
               </form>
             </div>
           </div>

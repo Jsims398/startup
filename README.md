@@ -89,9 +89,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - Routing between login and voting components.
+- [X] **Bundled using Vite** - I did complete this part of the deliverable. Using the same concepts that we used in class for Simon
+- [X] **Components** - I did complete this part of the deliverable. I Copied and moved the main part of my html files into my jsx files making sure to change className. 
+- [X] **Router** - Routing between login and voting components. Using the same idea for Simon I adjusted my code to make routing work without the HTML pages. 
 
 ## 🚀 React part 2: Reactivity
 
