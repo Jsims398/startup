@@ -91,7 +91,7 @@ export function Home() {
               ></textarea>
               <br />
             </div>
-            <div className="col-md-6">
+            <div className="aline-btn-row">
               <button className="btn btn-success px-4">Next</button>
             </div>
           </div>
