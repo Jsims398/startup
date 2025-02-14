@@ -26,7 +26,7 @@ export function Add() {
             <br />
           </div>
           <div className="col-md-4">
-            <img src="/public/AddMovieClip.png" alt="Movie projector illustration" className="img-fluid"/>
+            <img src="AddMovieClip.png" alt="Movie projector illustration" className="img-fluid"/>
           </div>
           <div className="col-md-8 padding">
             <button className="btn btn-success px-4">Add</button>

@@ -21,7 +21,7 @@ export function Login() {
             <p className="text-secondary">The movie night helper!</p>
             <div className="movie-projector">
               <img
-                src="public/movieclipart.png"
+                src="movieclipart.png"
                 alt="Movie projector illustration"
                 className="img-fluid"
               />
