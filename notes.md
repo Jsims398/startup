@@ -14,4 +14,17 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ## HTML Notes
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Converting HTML to react commands:
+    Installing Vite and Node
+    npm init -y
+    npm install vite@latest -D
+        Update Scripts
+        "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+        }     
+    Bootstrap
+    npm install bootstrap react-bootstrap
+    Enable react
+    npm install react react-dom react-router-dom
