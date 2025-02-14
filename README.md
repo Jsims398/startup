@@ -89,6 +89,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
+I was able to follow the instrucitons for Simon-React-part-1 however I was not sure how to push it to my github so that you can look at the files. I have deployed it to my website however. 
+
 - [X] **Bundled using Vite** - I did complete this part of the deliverable. Using the same concepts that we used in class for Simon
 - [X] **Components** - I did complete this part of the deliverable. I Copied and moved the main part of my html files into my jsx files making sure to change className. 
 - [X] **Router** - Routing between login and voting components. Using the same idea for Simon I adjusted my code to make routing work without the HTML pages. 
