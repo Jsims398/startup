@@ -5,7 +5,7 @@ export function Home() {
     <main className="container-fluid text-center">
       <div className="container mt-4">
         <div className="row mb-4">
-          <h1 className="display-4 mb-3">Movie</h1>
+          <h2 className="mb-3">Movie</h2>
           <div className="col-md-3 padding">
             <div className="row gap-2">
               <button className="btn btn-success row-2">Yes</button>
