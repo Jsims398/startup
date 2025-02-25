@@ -113,7 +113,7 @@ export function Login() {
                   />
                 </div>
                 <div className="d-flex gap-2 justify-content-center">
-                  <NavButton_login text="Login" onClick={handleLogin} Login />
+                  <NavButton_login text="Login" onClick={handleLogin} />
                   <NavButton_create text="Create" onClick={createAccount} />
                 </div>
               </form>

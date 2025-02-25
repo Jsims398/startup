@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./app.css";
 
@@ -6,9 +6,46 @@ import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { Login } from "./login/login";
 import { Home } from "./home/home";
 import { Add } from "./add/add";
-// import { About } from "./about/about";
+
 
 export default function App() {
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const userData = localStorage.getItem("user");
+      setUser(userData ? JSON.parse(userData) : null);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    const interval = setInterval(() => {
+      const userData = localStorage.getItem("user");
+      const parsedUser = userData ? JSON.parse(userData) : null;
+
+      if (JSON.stringify(parsedUser) !== JSON.stringify(user)) {
+        setUser(parsedUser);
+      }
+    }, 1000);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [user]);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    setUser(userData ? JSON.parse(userData) : null);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    window.location.href = "/";
+  };
+
   return (
     <BrowserRouter>
       <div className="app bg-dark text-light">
@@ -19,19 +56,32 @@ export default function App() {
             </div>
             <menu className="navbar-nav">
               <li className="nav-item">
-                <NavLink className="nav-link" to="">
-                  Login
-                </NavLink>
+                {!user && (
+                  <NavLink className="nav-link" to="">
+                    Login
+                  </NavLink>
+                )}
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="home">
-                  Rate Movies
-                </NavLink>
+                {user && (
+                  <NavLink className="nav-link" to="" onClick={handleLogout}>
+                    Logout
+                  </NavLink>
+                )}
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="add">
-                  Add Movie
-                </NavLink>
+                {user && (
+                  <NavLink className="nav-link" to="home">
+                    Rate Movies
+                  </NavLink>
+                )}
+              </li>
+              <li className="nav-item">
+                {user && (
+                  <NavLink className="nav-link" to="add">
+                    Add Movie
+                  </NavLink>
+                )}
               </li>
             </menu>
           </nav>
