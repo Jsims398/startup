@@ -1,17 +1,80 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// NavButton component
-const NavButton = ({ text, url }) => {
-  const navigate = useNavigate();
+const NavButton_login = ({ text, onClick, disabled }) => {
   return (
-    <button className="btn btn-success" onClick={() => navigate(url)}>
+    <button className="btn btn-success" onClick={onClick}>
+      {text}
+    </button>
+  );
+};
+
+const NavButton_create = ({ text, onClick, disabled }) => {
+  return (
+    <button className="btn btn-secondary" onClick={onClick}>
       {text}
     </button>
   );
 };
 
 export function Login() {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      navigate("/home");
+    }
+  }, [navigate]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      alert("Enter username and password");
+      return;
+    }
+
+    setTimeout(() => {
+      const userData = {
+        username: username,
+        isAuthenticated: true,
+      };
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      navigate("/home");
+    }, 1000);
+  };
+
+  const createAccount = (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      alert("Enter username and password");
+      setIsLoading(false);
+      return;
+    }
+
+    setTimeout(() => {
+      const userData = {
+        username: username,
+        isAuthenticated: true,
+        isNewUser: true,
+      };
+
+      localStorage.setItem("user", JSON.stringify(userData));
+      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+      existingUsers.push({
+        username: username,
+      });
+
+      localStorage.setItem("users", JSON.stringify(existingUsers));
+      navigate("/home");
+    }, 1000);
+  };
+
   return (
     <main className="container-fluid text-center">
       <div className="container">
@@ -36,6 +99,8 @@ export function Login() {
                     type="text"
                     className="form-control"
                     placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
@@ -43,13 +108,13 @@ export function Login() {
                     type="password"
                     className="form-control"
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                {/* <button className="btn btn-success w-100 mb-3">Login</button>
-                <button className="btn btn-info w-100">Create Account</button> */}
                 <div className="d-flex gap-2 justify-content-center">
-                  <NavButton text="Login" url="/home" />
-                  <NavButton text="Create" url="/home" />
+                  <NavButton_login text="Login" onClick={handleLogin} Login />
+                  <NavButton_create text="Create" onClick={createAccount} />
                 </div>
               </form>
             </div>
