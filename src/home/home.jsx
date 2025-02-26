@@ -9,11 +9,13 @@ export function Home() {
     totalScore: 0,
     ratedBy: [],
   });
+
   const [recommendedMovie, setRecommendedMovie] = useState({
     title: "",
     description: "",
     rating: 0.0,
   });
+
   const [allMovies, setAllMovies] = useState([]);
   const [currentUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
@@ -182,7 +184,7 @@ export function Home() {
                 name="description"
                 value={recommendedMovie.description}
                 readOnly
-                className="form-control bg-secondary textarea"
+                className="form-control bg-secondary textarea width:75%"
               ></textarea>
               <br />
               {recommendedMovie.rating > 0 && (

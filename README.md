@@ -99,8 +99,10 @@ I was able to follow the instrucitons for Simon-React-part-1 however I was not s
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [X] **All functionality implemented or mocked out** - I did complete this part of the deliverable.
+      Through many subfunctions and implementing a storage into localstorage. I was also able to add the carausel back in with a loop thought the movies.
+- [X] **Hooks** - I did complete this part of the deliverable.
+      I added some temp storage for older persistant data.
 
 ## 🚀 Service deliverable
 
