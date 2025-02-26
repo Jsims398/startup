@@ -4,6 +4,9 @@ export function Add() {
     title: "",
     description: "",
     rating: 0.0,
+    totalNumberOfRatings: 0,
+    totalScore: 0,
+    ratedBy: []
   });
 
   const handleChange = (e) => {
