@@ -9,17 +9,13 @@ export function Home() {
     totalScore: 0,
     ratedBy: [],
   });
-
   const [recommendedMovie, setRecommendedMovie] = useState({
     title: "",
     description: "",
     rating: 0.0,
   });
-
   const [allMovies, setAllMovies] = useState([]);
-  const [currentUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || {}
-  );
+  const [currentUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
 
   useEffect(() => {
     fetchNextUnratedMovie();
@@ -34,11 +30,9 @@ export function Home() {
       totalNumberOfRatings: movie.totalNumberOfRatings + 1,
       ratedBy: [...movie.ratedBy, currentUser.username],
     };
-
     updatedMovie.rating = parseFloat(
       (updatedMovie.totalScore / updatedMovie.totalNumberOfRatings).toFixed(1)
     );
-
     saveMovieToLocalStorage(updatedMovie);
     fetchNextUnratedMovie();
   };
@@ -49,11 +43,9 @@ export function Home() {
 
   const fetchNextUnratedMovie = () => {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
-
     const nextMovie = movies.find(
       (movie) => !movie.ratedBy || !movie.ratedBy.includes(currentUser.username)
     );
-
     if (nextMovie) {
       const movieWithDefaults = {
         ...nextMovie,
@@ -77,11 +69,9 @@ export function Home() {
 
   const saveMovieToLocalStorage = (updatedMovie) => {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
-
     const updatedMovies = movies.map((m) =>
       m.id === updatedMovie.id ? updatedMovie : m
     );
-
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
     setAllMovies(updatedMovies);
   };
@@ -93,11 +83,9 @@ export function Home() {
 
   const fetchRecommendedMovie = () => {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
-
     const ratedMovies = movies.filter(
       (movie) => movie.ratedBy && movie.ratedBy.includes(currentUser.username)
     );
-
     if (ratedMovies.length > 0) {
       const topRated = [...ratedMovies].sort((a, b) => b.rating - a.rating)[0];
       setRecommendedMovie(topRated);
@@ -117,11 +105,9 @@ export function Home() {
     fetchNextUnratedMovie();
     fetchAllMovies();
     fetchRecommendedMovie();
-
     const interval = setInterval(() => {
       fetchRecommendedMovie();
     }, 30000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -132,16 +118,10 @@ export function Home() {
           <h2 className="mb-3">Rate This Movie</h2>
           <div className="col-md-3 padding">
             <div className="row gap-2">
-              <button
-                className="btn btn-success row-2"
-                onClick={handleYesRating}
-              >
+              <button className="btn btn-success row-2" onClick={handleYesRating}>
                 Yes
               </button>
-              <button
-                className="btn btn-warning row-2"
-                onClick={handleMaybeRating}
-              >
+              <button className="btn btn-warning row-2" onClick={handleMaybeRating}>
                 Maybe
               </button>
               <button className="btn btn-danger row-2" onClick={handleNoRating}>
@@ -172,71 +152,16 @@ export function Home() {
               <br />
               {movie.rating > 0 && (
                 <p>
-                  Current Rating: {movie.rating} ({movie.totalNumberOfRatings}{" "}
-                  ratings)
+                  Current Rating: {movie.rating} ({movie.totalNumberOfRatings} ratings)
                 </p>
               )}
             </div>
           </div>
         </div>
-
         <h2 className="mb-3">All Movies</h2>
         <div className="container my-5">
-          <div id="myCarousel" className="carousel slide">
-            <div className="carousel-inner">
-              {allMovies.length > 0 ? (
-                allMovies.map((movie, index) => (
-                  <div
-                    key={movie.id}
-                    className={`carousel-item ${index === 0 ? "active" : ""}`}
-                  >
-                    <div className="movie-card">
-                      <h3>{movie.title}</h3>
-                      <p>{movie.description.substring(0, 100)}...</p>
-                      <div className="rating">
-                        Rating: {movie.rating ? movie.rating : "Not yet rated"}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="carousel-item active">
-                  <div className="movie-card">
-                    <h3>No Movies Available</h3>
-                    <p>Add some movies to get started!</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <button
-              className="carousel-control-prev"
-              type="button"
-              data-bs-target="#myCarousel"
-              data-bs-slide="prev"
-            >
-              <span
-                className="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-
-            <button
-              className="carousel-control-next"
-              type="button"
-              data-bs-target="#myCarousel"
-              data-bs-slide="next"
-            >
-              <span
-                className="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Next</span>
-            </button>
-          </div>
+          <MovieCarousel allMovies={allMovies} />
         </div>
-
         <div className="recommended-section">
           <h2>Recommended Movie</h2>
           <div className="row align-items-center">
@@ -264,17 +189,39 @@ export function Home() {
                 <p>Rating: {recommendedMovie.rating}/5</p>
               )}
             </div>
-            {/* <div className="aline-btn-row">
-              <button 
-                className="btn btn-success px-4" 
-                onClick={handleNextRecommended}
-              >
-                Next
-              </button>
-            </div> */}
           </div>
         </div>
       </div>
     </main>
+  );
+}
+
+export function MovieCarousel({ allMovies }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextItem = (step) => {
+    if (allMovies.length === 0) return;
+    const nextIndex = (currentIndex + step + allMovies.length) % allMovies.length;
+    setCurrentIndex(nextIndex);
+  };
+
+  return (
+    <div className="carousel slide">
+      <div className="carousel-inner">
+        {allMovies.map((m, index) => (
+          <div key={m.id} className={`carousel-item ${index === currentIndex ? "active" : ""}`}>
+            <h3>{m.title}</h3>
+            <p>{m.description}</p>
+            <p>Rating: {m.rating || "Not yet rated"}</p>
+          </div>
+        ))}
+      </div>
+      <button className="carousel-control-prev" type="button" onClick={() => nextItem(-1)}>
+        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button className="carousel-control-next" type="button" onClick={() => nextItem(1)}>
+        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
   );
 }

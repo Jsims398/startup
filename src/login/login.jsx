@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const NavButton_login = ({ text, onClick, disabled }) => {
+const NavButton_login = ({ text, onClick }) => {
   return (
     <button className="btn btn-success" onClick={onClick}>
       {text}
@@ -9,7 +9,7 @@ const NavButton_login = ({ text, onClick, disabled }) => {
   );
 };
 
-const NavButton_create = ({ text, onClick, disabled }) => {
+const NavButton_create = ({ text, onClick }) => {
   return (
     <button className="btn btn-secondary" onClick={onClick}>
       {text}
