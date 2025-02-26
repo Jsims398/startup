@@ -43,7 +43,7 @@ export function Login() {
         isAuthenticated: true,
       };
       localStorage.setItem("user", JSON.stringify(userData));
-
+      fetchMovies();
       navigate("/home");
     }, 1000);
   };
@@ -71,14 +71,48 @@ export function Login() {
       });
 
       localStorage.setItem("users", JSON.stringify(existingUsers));
+      fetchMovies();
       navigate("/home");
     }, 1000);
+  };
+  //API place holder
+  const fetchMovies = () => {
+    const mockMovies = [
+      {
+        id: 1,
+        title: "Inception",
+        description: "A thief who steals corporate secrets through the use of dream-sharing technology.",
+        rating: 4.8,
+        totalNumberOfRatings: 100,
+        totalScore: 480,
+        ratedBy: [],
+      },
+      {
+        id: 2,
+        title: "The Matrix",
+        description: "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
+        rating: 4.7,
+        totalNumberOfRatings: 90,
+        totalScore: 423,
+        ratedBy: [],
+      },
+      {
+        id: 3,
+        title: "Interstellar",
+        description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+        rating: 4.6,
+        totalNumberOfRatings: 80,
+        totalScore: 368,
+        ratedBy: [],
+      },
+    ];
+    localStorage.setItem("movies", JSON.stringify(mockMovies));
   };
 
   return (
     <main className="container-fluid text-center">
       <div className="container">
-        <div className="row min-vh-100 align-items-center">
+        <div className="row min-vh-80 align-items-center">
           <div className="col-md-6">
             <h1 className="display-1">Watch with Me!</h1>
             <p className="text-secondary">The movie night helper!</p>

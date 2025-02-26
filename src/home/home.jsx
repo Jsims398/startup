@@ -107,7 +107,7 @@ export function Home() {
     fetchRecommendedMovie();
     const interval = setInterval(() => {
       fetchRecommendedMovie();
-    }, 30000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
