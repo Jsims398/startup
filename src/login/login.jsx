@@ -43,7 +43,7 @@ export function Login(props) {
   }
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("username");
+    const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       navigate("/home");
     }
