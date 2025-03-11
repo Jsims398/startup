@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./app.css";
 
@@ -40,11 +41,19 @@ export default function App() {
     setUser(userData ? JSON.parse(userData) : null);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
-    window.location.href = "/";
-  };
+  function handleLogout() {
+    fetch(`/api/auth/logout`, {
+      method: 'delete',
+    })
+      .catch(() => {
+        // Logout failed. Assuming offline
+      })
+      .finally(() => {
+        localStorage.removeItem('user');
+        // props.onLogout();
+        // navigate("/");
+      });
+  }
 
   return (
     <BrowserRouter>

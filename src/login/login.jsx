@@ -41,14 +41,7 @@ export function Login(props) {
       setDisplayError(`⚠ Error: ${error.message}`);
     }
   }
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      navigate("/home");
-    }
-  }, [navigate]);
-
+  
   return (
     <main className="container-fluid text-center">
       <div className="container">
