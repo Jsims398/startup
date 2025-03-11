@@ -1,113 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import { MessageDialog } from "./messageDialog";
 
-const NavButton_login = ({ text, onClick }) => {
-  return (
-    <button className="btn btn-success" onClick={onClick}>
-      {text}
-    </button>
-  );
-};
-
-const NavButton_create = ({ text, onClick }) => {
-  return (
-    <button className="btn btn-secondary" onClick={onClick}>
-      {text}
-    </button>
-  );
-};
-
-export function Login() {
+export function Login(props) {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(props.username || "");
   const [password, setPassword] = useState("");
+  const [displayError, setDisplayError] = useState(null);
+
+  async function loginUser() {
+    loginOrCreate("/api/auth/login");
+  }
+
+  async function createAccountAPI() {
+    loginOrCreate("/api/auth/create");
+  }
+
+  async function loginOrCreate(endpoint) {
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("user", JSON.stringify(username));
+        localStorage.setItem("movies", data.movies? JSON.stringify(data.movies) : "[]" );
+        // props.onLogin(username);
+        navigate("/home");
+      } else {
+        const body = await response.json();
+        setDisplayError(`⚠ Error: ${body.msg}`);
+      }
+    } catch (error) {
+      setDisplayError(`⚠ Error: ${error.message}`);
+    }
+  }
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
+    const loggedInUser = localStorage.getItem("username");
     if (loggedInUser) {
       navigate("/home");
     }
   }, [navigate]);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    if (!username || !password) {
-      alert("Enter username and password");
-      return;
-    }
-
-    setTimeout(() => {
-      const userData = {
-        username: username,
-        isAuthenticated: true,
-      };
-      localStorage.setItem("user", JSON.stringify(userData));
-      fetchMovies();
-      navigate("/home");
-    }, 1000);
-  };
-
-  const createAccount = (e) => {
-    e.preventDefault();
-
-    if (!username || !password) {
-      alert("Enter username and password");
-      setIsLoading(false);
-      return;
-    }
-
-    setTimeout(() => {
-      const userData = {
-        username: username,
-        isAuthenticated: true,
-        isNewUser: true,
-      };
-
-      localStorage.setItem("user", JSON.stringify(userData));
-      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-      existingUsers.push({
-        username: username,
-      });
-
-      localStorage.setItem("users", JSON.stringify(existingUsers));
-      fetchMovies();
-      navigate("/home");
-    }, 1000);
-  };
-  //API place holder
-  const fetchMovies = () => {
-    const mockMovies = [
-      {
-        id: 1,
-        title: "Inception",
-        description: "A thief who steals corporate secrets through the use of dream-sharing technology.",
-        rating: 4.8,
-        totalNumberOfRatings: 100,
-        totalScore: 480,
-        ratedBy: [],
-      },
-      {
-        id: 2,
-        title: "The Matrix",
-        description: "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
-        rating: 4.7,
-        totalNumberOfRatings: 90,
-        totalScore: 423,
-        ratedBy: [],
-      },
-      {
-        id: 3,
-        title: "Interstellar",
-        description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        rating: 4.6,
-        totalNumberOfRatings: 80,
-        totalScore: 368,
-        ratedBy: [],
-      },
-    ];
-    localStorage.setItem("movies", JSON.stringify(mockMovies));
-  };
 
   return (
     <main className="container-fluid text-center">
@@ -147,10 +87,27 @@ export function Login() {
                   />
                 </div>
                 <div className="d-flex gap-2 justify-content-center">
-                  <NavButton_login text="Login" onClick={handleLogin} />
-                  <NavButton_create text="Create" onClick={createAccount} />
+                  <Button
+                    variant="primary"
+                    onClick={() => loginUser()}
+                    disabled={!username || !password}
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => createAccountAPI()}
+                    disabled={!username || !password}
+                  >
+                    Create
+                  </Button>
                 </div>
+                <MessageDialog
+                  message={displayError}
+                  onHide={() => setDisplayError(null)}
+                />
               </form>
+              {displayError && <p className="text-danger">{displayError}</p>}
             </div>
           </div>
         </div>
