@@ -74,6 +74,28 @@ apiRouter.delete("/auth/logout", async (req, res) => {
   res.sendStatus(204);
 });
 
+apiRouter.post("/movies/add", (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description) {
+    return res.status(400).json({ msg: "Title and description are required" });
+  }
+
+  const newMovie = {
+    id: movies.length + 1,
+    title,
+    description,
+    rating: 0.0,
+    totalNumberOfRatings: 0,
+    totalScore: 0,
+    ratedBy: [],
+  };
+
+  movies.push(newMovie);
+
+  res.status(201).json({ msg: "Movie added successfully", movies: movies });
+});
+
 async function createUser(username, password) {
   const passwordHash = await bcrypt.hash(password, 10);
 

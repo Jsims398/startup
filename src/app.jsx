@@ -50,6 +50,7 @@ export default function App() {
       })
       .finally(() => {
         localStorage.removeItem('user');
+        localStorage.removeItem('movies');
         // props.onLogout();
         // navigate("/");
       });

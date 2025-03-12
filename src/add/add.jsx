@@ -17,26 +17,32 @@ export function Add() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!movie.title.trim() || !movie.description.trim()) {
       return;
     }
-
-    const newMovie = {
-      ...movie,
-      id: Date.now().toString(),
-    };
-
-    const existingMovies = JSON.parse(localStorage.getItem("movies") || "[]");
-    existingMovies.push(newMovie);
-
-    localStorage.setItem("movies", JSON.stringify(existingMovies));
-
-    setMovie({ title: "", description: "" });
-
-    setTimeout(() => {}, 2000);
+  
+    try {
+      const response = await fetch("/api/movies/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(movie),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();  // Parse the response JSON
+        setMovie({ title: "", description: "" });
+      
+        // Store updated movies list in localStorage
+        localStorage.setItem("movies", data.movies ? JSON.stringify(data.movies) : "[]");
+      }
+      
+    } catch (error) {
+      console.error("Error adding movie:", error);
+    }
   };
+  
 
   return (
     <main className="container-fluid text-center">

@@ -41,7 +41,7 @@ export function Login(props) {
       setDisplayError(`⚠ Error: ${error.message}`);
     }
   }
-  
+
   return (
     <main className="container-fluid text-center">
       <div className="container">
