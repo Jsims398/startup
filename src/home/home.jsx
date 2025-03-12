@@ -25,19 +25,39 @@ export function Home() {
     fetchRecommendedMovie();
   }, []);
 
-  const handleRating = (score) => {
+  const handleRating = async (score) => {
+    const currentUser = JSON.parse(localStorage.getItem("user")) || {}; // Parse user object
+  
     const updatedMovie = {
       ...movie,
       totalScore: movie.totalScore + score,
       totalNumberOfRatings: movie.totalNumberOfRatings + 1,
-      ratedBy: [...movie.ratedBy, currentUser.username],
+      ratedBy: [...movie.ratedBy, currentUser], // Add username correctly
     };
+  
     updatedMovie.rating = parseFloat(
       (updatedMovie.totalScore / updatedMovie.totalNumberOfRatings).toFixed(1)
     );
+  
     saveMovieToLocalStorage(updatedMovie);
+  
+    try {
+      const response = await fetch("/api/movies/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedMovie),
+      });
+  
+      if (!response.ok) {
+        console.error("Failed to update movie on server");
+      }
+    } catch (error) {
+      console.error("Error updating movie:", error);
+    }
+  
     fetchNextUnratedMovie();
-  };
+  }; 
+  
 
   const handleYesRating = () => handleRating(5);
   const handleMaybeRating = () => handleRating(3);
