@@ -17,7 +17,9 @@ export function Home() {
   });
 
   const [allMovies, setAllMovies] = useState([]);
-  const [currentUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
+  const [currentUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
 
   useEffect(() => {
     fetchNextUnratedMovie();
@@ -26,38 +28,37 @@ export function Home() {
   }, []);
 
   const handleRating = async (score) => {
-    const currentUser = JSON.parse(localStorage.getItem("user")) || {}; // Parse user object
-  
+    const currentUser = JSON.parse(localStorage.getItem("user")) || {};
+
     const updatedMovie = {
       ...movie,
       totalScore: movie.totalScore + score,
       totalNumberOfRatings: movie.totalNumberOfRatings + 1,
-      ratedBy: [...movie.ratedBy, currentUser], // Add username correctly
+      ratedBy: [...movie.ratedBy, currentUser],
     };
-  
+
     updatedMovie.rating = parseFloat(
       (updatedMovie.totalScore / updatedMovie.totalNumberOfRatings).toFixed(1)
     );
-  
+
     saveMovieToLocalStorage(updatedMovie);
-  
+
     try {
       const response = await fetch("/api/movies/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedMovie),
       });
-  
+
       if (!response.ok) {
         console.error("Failed to update movie on server");
       }
     } catch (error) {
       console.error("Error updating movie:", error);
     }
-  
+
     fetchNextUnratedMovie();
-  }; 
-  
+  };
 
   const handleYesRating = () => handleRating(5);
   const handleMaybeRating = () => handleRating(3);
@@ -66,7 +67,7 @@ export function Home() {
   const fetchNextUnratedMovie = () => {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
     const nextMovie = movies.find(
-      (movie) => !movie.ratedBy || !movie.ratedBy.includes(currentUser.username)
+      (movie) => !movie.ratedBy || !movie.ratedBy.includes(currentUser)
     );
     if (nextMovie) {
       const movieWithDefaults = {
@@ -106,7 +107,7 @@ export function Home() {
   const fetchRecommendedMovie = () => {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
     const ratedMovies = movies.filter(
-      (movie) => movie.ratedBy && movie.ratedBy.includes(currentUser.username)
+      (movie) => movie.ratedBy && movie.ratedBy.includes(currentUser)
     );
     if (ratedMovies.length > 0) {
       const topRated = [...ratedMovies].sort((a, b) => b.rating - a.rating)[0];
@@ -128,10 +129,10 @@ export function Home() {
     fetchAllMovies();
     fetchRecommendedMovie();
     const interval = setInterval(() => {
-      fetchRecommendedMovie();
+      fetchRecommendedMovie(); 
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, []); 
 
   return (
     <main className="container-fluid text-center">
@@ -140,10 +141,16 @@ export function Home() {
           <h2 className="mb-3">Rate This Movie</h2>
           <div className="col-md-3 padding">
             <div className="row gap-2">
-              <button className="btn btn-success row-2" onClick={handleYesRating}>
+              <button
+                className="btn btn-success row-2"
+                onClick={handleYesRating}
+              >
                 Yes
               </button>
-              <button className="btn btn-warning row-2" onClick={handleMaybeRating}>
+              <button
+                className="btn btn-warning row-2"
+                onClick={handleMaybeRating}
+              >
                 Maybe
               </button>
               <button className="btn btn-danger row-2" onClick={handleNoRating}>
@@ -174,7 +181,8 @@ export function Home() {
               <br />
               {movie.rating > 0 && (
                 <p>
-                  Current Rating: {movie.rating} ({movie.totalNumberOfRatings} ratings)
+                  Current Rating: {movie.rating} ({movie.totalNumberOfRatings}{" "}
+                  ratings)
                 </p>
               )}
             </div>
@@ -223,7 +231,8 @@ export function MovieCarousel({ allMovies }) {
 
   const nextItem = (step) => {
     if (allMovies.length === 0) return;
-    const nextIndex = (currentIndex + step + allMovies.length) % allMovies.length;
+    const nextIndex =
+      (currentIndex + step + allMovies.length) % allMovies.length;
     setCurrentIndex(nextIndex);
   };
 
@@ -231,17 +240,30 @@ export function MovieCarousel({ allMovies }) {
     <div className="carousel slide">
       <div className="carousel-inner">
         {allMovies.map((m, index) => (
-          <div key={m.id} className={`carousel-item ${index === currentIndex ? "active" : ""}`}>
+          <div
+            key={m.id}
+            className={`carousel-item ${
+              index === currentIndex ? "active" : ""
+            }`}
+          >
             <h3>{m.title}</h3>
             <p>{m.description}</p>
             <p>Rating: {m.rating || "Not yet rated"}</p>
           </div>
         ))}
       </div>
-      <button className="carousel-control-prev" type="button" onClick={() => nextItem(-1)}>
+      <button
+        className="carousel-control-prev"
+        type="button"
+        onClick={() => nextItem(-1)}
+      >
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
       </button>
-      <button className="carousel-control-next" type="button" onClick={() => nextItem(1)}>
+      <button
+        className="carousel-control-next"
+        type="button"
+        onClick={() => nextItem(1)}
+      >
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
       </button>
     </div>

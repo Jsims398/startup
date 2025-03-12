@@ -37,6 +37,7 @@ let movies = [
   },
 ];
 
+
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 app.use(express.json());
 app.use(cookieParser());
@@ -74,7 +75,7 @@ apiRouter.delete("/auth/logout", async (req, res) => {
   res.sendStatus(204);
 });
 
-apiRouter.post("/movies/add", verifyAuth, (req, res) => {
+apiRouter.post("/movies/add", (req, res) => {
   const { title, description } = req.body;
 
   if (!title || !description) {
@@ -96,13 +97,12 @@ apiRouter.post("/movies/add", verifyAuth, (req, res) => {
   res.status(201).json({ msg: "Movie added successfully", movies: movies });
 });
 
-apiRouter.post("/movies/update", verifyAuth, (req, res) => {
+apiRouter.post("/movies/update", (req, res) => {
   const updatedMovie = req.body;
 
   if (!updatedMovie || !updatedMovie.id) {
     return res.status(400).json({ msg: "Invalid request. Movie object with a valid ID is required." });
   }
-
   const movieIndex = movies.findIndex((m) => m.id === updatedMovie.id);
   if (movieIndex === -1) {
     return res.status(404).json({ msg: "Movie not found" });
@@ -113,14 +113,6 @@ apiRouter.post("/movies/update", verifyAuth, (req, res) => {
   res.status(200).json({ msg: "Movie updated", movies: movies });
 });
 
-const verifyAuth = async (req, res, next) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
-  if (user) {
-    next();
-  } else {
-    res.status(401).send({ msg: 'Unauthorized' });
-  }
-};
 
 async function createUser(username, password) {
   const passwordHash = await bcrypt.hash(password, 10);
