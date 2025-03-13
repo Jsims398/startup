@@ -8,47 +8,31 @@ import { Login } from "./login/login";
 import { Home } from "./home/home";
 import { Add } from "./add/add";
 
+
 export default function App() {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
 
-  const [lastActivity, setLastActivity] = useState(Date.now());
-
   useEffect(() => {
-    if (!user) return;
-
-    const activityEvents = ["mousedown", "keydown", "touchstart", "scroll"];
-
-    const updateActivity = () => {
-      setLastActivity(Date.now());
-      localStorage.setItem("lastActivity", Date.now().toString());
+    const handleStorageChange = () => {
+      const userData = localStorage.getItem("user");
+      setUser(userData ? JSON.parse(userData) : null);
     };
 
-    updateActivity();
+    window.addEventListener("storage", handleStorageChange);
+    const interval = setInterval(() => {
+      const userData = localStorage.getItem("user");
+      const parsedUser = userData ? JSON.parse(userData) : null;
 
-    activityEvents.forEach((event) => {
-      window.addEventListener(event, updateActivity);
-    });
-
-    const inactivityCheckInterval = setInterval(() => {
-      const lastActivityTime = parseInt(
-        localStorage.getItem("lastActivity") || Date.now().toString()
-      );
-      const currentTime = Date.now();
-      const inactiveTime = currentTime - lastActivityTime;
-
-      if (inactiveTime > 1800000 && user) {
-        console.log("Session timeout due to inactivity");
-        handleLogout();
+      if (JSON.stringify(parsedUser) !== JSON.stringify(user)) {
+        setUser(parsedUser);
       }
-    }, 60000);
+    }, 1000);
 
     return () => {
-      activityEvents.forEach((event) => {
-        window.removeEventListener(event, updateActivity);
-      });
-      clearInterval(inactivityCheckInterval);
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
     };
   }, [user]);
 
@@ -59,15 +43,14 @@ export default function App() {
 
   function handleLogout() {
     fetch(`/api/auth/logout`, {
-      method: "delete",
+      method: 'delete',
     })
       .catch(() => {
         // Logout failed. Assuming offline
       })
       .finally(() => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("movies");
-        localStorage.removeItem("lastActivity");
+        localStorage.removeItem('user');
+        localStorage.removeItem('movies');
         // props.onLogout();
         // navigate("/");
       });
