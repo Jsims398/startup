@@ -5,7 +5,7 @@ import { MessageDialog } from "./messageDialog";
 
 export function Login(props) {
   const navigate = useNavigate();
-  const [username, setUsername] = useState(props.username || "");
+  const [username, setUsername] = useState(props.user || "");
   const [password, setPassword] = useState("");
   const [displayError, setDisplayError] = useState(null);
 
@@ -16,6 +16,13 @@ export function Login(props) {
   async function createAccountAPI() {
     loginOrCreate("/api/auth/create");
   }
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   async function loginOrCreate(endpoint) {
     try {
@@ -30,7 +37,10 @@ export function Login(props) {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("user", JSON.stringify(username));
-        localStorage.setItem("movies", data.movies? JSON.stringify(data.movies) : "[]" );
+        localStorage.setItem(
+          "movies",
+          data.movies ? JSON.stringify(data.movies) : "[]"
+        );
         // props.onLogin(username);
         navigate("/home");
       } else {
