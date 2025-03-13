@@ -15,16 +15,20 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ## HTML Notes
 
 Converting HTML to react commands:
-    Installing Vite and Node
-    npm init -y
-    npm install vite@latest -D
-        Update Scripts
-        "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview"
-        }     
-    Bootstrap
-    npm install bootstrap react-bootstrap
-    Enable react
-    npm install react react-dom react-router-dom
+Installing Vite and Node
+npm init -y
+npm install vite@latest -D
+Update Scripts
+"scripts": {
+"dev": "vite",
+"build": "vite build",
+"preview": "vite preview"
+}  
+ Bootstrap
+npm install bootstrap react-bootstrap
+Enable react
+npm install react react-dom react-router-dom
+
+## API endpoints
+
+Managed the endpoints through the tools and packages Express and NodeJS.

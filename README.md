@@ -89,30 +89,32 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-I was able to follow the instrucitons for Simon-React-part-1 however I was not sure how to push it to my github so that you can look at the files. I have deployed it to my website however. 
+I was able to follow the instrucitons for Simon-React-part-1 however I was not sure how to push it to my github so that you can look at the files. I have deployed it to my website however.
 
-- [X] **Bundled using Vite** - I did complete this part of the deliverable. Using the same concepts that we used in class for Simon
-- [X] **Components** - I did complete this part of the deliverable. I Copied and moved the main part of my html files into my jsx files making sure to change className. 
-- [X] **Router** - Routing between login and voting components. Using the same idea for Simon I adjusted my code to make routing work without the HTML pages. 
+- [x] **Bundled using Vite** - I did complete this part of the deliverable. Using the same concepts that we used in class for Simon
+- [x] **Components** - I did complete this part of the deliverable. I Copied and moved the main part of my html files into my jsx files making sure to change className.
+- [x] **Router** - Routing between login and voting components. Using the same idea for Simon I adjusted my code to make routing work without the HTML pages.
 
 ## 🚀 React part 2: Reactivity
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [X] **All functionality implemented or mocked out** - I did complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - I did complete this part of the deliverable.
       Through many subfunctions and implementing a storage into localstorage. I was also able to add the carausel back in with a loop thought the movies.
-- [X] **Hooks** - I did complete this part of the deliverable.
+- [x] **Hooks** - I did complete this part of the deliverable.
       I added some temp storage for older persistant data.
 
 ## 🚀 Service deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - I did complete this part of the deliverable.
+- [x] **Static middleware for frontend** - I did complete this part of the deliverable.
+- [x] **Calls to third party endpoints** - I did complete this part of the deliverable.
+- [x] **Backend service endpoints** - I did complete this part of the deliverable.
+- [x] **Frontend calls service endpoints** - I did complete this part of the deliverable.
+
+      Using the service > index.js created the api endpoints so that we can call the backend stroage for the data. Used express to add the cookies and the front end to manage the calls to the backend. Manipulated the rating feature so that the data gets updated in both locations.
 
 ## 🚀 DB/Login deliverable
 
