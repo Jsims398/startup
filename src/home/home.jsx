@@ -170,7 +170,7 @@ export function Home() {
                 className="form-control bg-secondary text"
               />
               <br />
-              <label htmlFor="current-description">Description:</label>
+              <label htmlFor="current-description">Description/Actors:</label>
               <textarea
                 id="current-description"
                 name="description"
@@ -206,7 +206,7 @@ export function Home() {
                 className="form-control bg-secondary text"
               />
               <br />
-              <label htmlFor="recommended-description">Description:</label>
+              <label htmlFor="recommended-description">Description/Actors:</label>
               <textarea
                 id="recommended-description"
                 name="description"
