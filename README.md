@@ -109,12 +109,16 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
 - [x] **Node.js/Express HTTP service** - I did complete this part of the deliverable.
+      Used express to add the cookies and the front end to manage the calls to the backend.
 - [x] **Static middleware for frontend** - I did complete this part of the deliverable.
+      Added local endpoints to account for the backend being called.
 - [x] **Calls to third party endpoints** - I did complete this part of the deliverable.
+      Used the database look up in add movie that searches for your title and adds all movies with that title.
 - [x] **Backend service endpoints** - I did complete this part of the deliverable.
+      Using the service > index.js created the api endpoints so that we can call the backend stroage for the data.
 - [x] **Frontend calls service endpoints** - I did complete this part of the deliverable.
+      Manipulated the rating feature so that the data gets updated in both locations.
 
-      Using the service > index.js created the api endpoints so that we can call the backend stroage for the data. Used express to add the cookies and the front end to manage the calls to the backend. Manipulated the rating feature so that the data gets updated in both locations.
 
 ## 🚀 DB/Login deliverable
 
