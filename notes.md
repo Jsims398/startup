@@ -31,4 +31,4 @@ npm install react react-dom react-router-dom
 
 ## API endpoints
 
-Managed the endpoints through the tools and packages Express and NodeJS.
+Managed the endpoints through the tools and packages Express and NodeJS. Used fetch to test the endpoints. Also used fetch to obtain the information needed for the outside api call.
