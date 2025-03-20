@@ -1,4 +1,14 @@
-.vscode/
+# dependencies
+node_modules
+
+# production
+/build
+/dist
+
+# misc
 .DS_Store
-node_modules/
-dbConfig.js
+
+npm-debug.log*
+.vscode
+.pytest_cache
+dbConfig.json
