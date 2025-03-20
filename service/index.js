@@ -4,40 +4,41 @@ const express = require("express");
 const uuid = require("uuid");
 const app = express();
 const authCookieName = "token";
+const DB = require('./database.js');
+DB.connect();
 
-let users = [];
-let movies = [
-  {
-    id: 1,
-    title: "Inception",
-    description:
-      "A thief who steals corporate secrets through the use of dream-sharing technology.",
-    rating: 4.8,
-    totalNumberOfRatings: 100,
-    totalScore: 480,
-    ratedBy: [],
-  },
-  {
-    id: 2,
-    title: "The Matrix",
-    description:
-      "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
-    rating: 4.7,
-    totalNumberOfRatings: 90,
-    totalScore: 423,
-    ratedBy: [],
-  },
-  {
-    id: 3,
-    title: "Interstellar",
-    description:
-      "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-    rating: 4.6,
-    totalNumberOfRatings: 80,
-    totalScore: 368,
-    ratedBy: [],
-  },
-];
+// let movies = [
+//   {
+//     id: 1,
+//     title: "Inception",
+//     description:
+//       "A thief who steals corporate secrets through the use of dream-sharing technology.",
+//     rating: 4.8,
+//     totalNumberOfRatings: 100,
+//     totalScore: 480,
+//     ratedBy: [],
+//   },
+//   {
+//     id: 2,
+//     title: "The Matrix",
+//     description:
+//       "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
+//     rating: 4.7,
+//     totalNumberOfRatings: 90,
+//     totalScore: 423,
+//     ratedBy: [],
+//   },
+//   {
+//     id: 3,
+//     title: "Interstellar",
+//     description:
+//       "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+//     rating: 4.6,
+//     totalNumberOfRatings: 80,
+//     totalScore: 368,
+//     ratedBy: [],
+//   },
+// ];
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 app.use(express.json());
@@ -49,21 +50,28 @@ app.use("/api", apiRouter);
 
 apiRouter.post("/auth/create", async (req, res) => {
   if (await findUser("username", req.body.username)) {
-    res.status(400).json({ msg: "Username already exists" });
+    res.status(409).json({ msg: "Username already exists" });
   } else {
     const user = await createUser(req.body.username, req.body.password);
     setAuthCookie(res, user.token);
-    res.send({ user: user, movies: movies });
+    movies = await DB.getMovies(movies);
+    res.send({ user: user.username, movies: movies });
   }
 });
 
 apiRouter.post("/auth/login", async (req, res) => {
   const user = await findUser("username", req.body.username);
-  if (user && (await bcrypt.compare(req.body.password, user.password))) {
+  if (user && 
+    (await bcrypt.compare(req.body.password, user.password))) {
+    user.token = uuid.v4();
+    const movies = [];
+    await DB.updateUser(user);
+    await DB.getMovies(movies);
     setAuthCookie(res, user.token);
-    res.send({ user: user, movies: movies });
-  } else {
-    res.status(400).json({ msg: "Invalid username or password" });
+    res.send({ username: user.username, movies: movies });
+  } 
+  else {
+    res.status(401).json({ msg: "Invalid username or password" });
   }
 });
 
@@ -71,6 +79,7 @@ apiRouter.delete("/auth/logout", async (req, res) => {
   const user = await findUser("token", req.cookies[authCookieName]);
   if (user) {
     delete user.token;
+    DB.updateUser(user);
   }
   res.clearCookie(authCookieName);
   res.sendStatus(204);
@@ -106,9 +115,10 @@ apiRouter.post("/movies/add", async (req, res) => {
         ratedBy: [],
       };
 
-      movies.push(newMovie); 
+      addedMovies.push(newMovie); 
     }
-
+    await DB.addMovies(addedMovies);
+    movies = await DB.getMovies();
     res.status(201).json({ msg: "Movies added successfully", movies: movies });
   } catch (error) {
     console.error("Error fetching movies:", error);
@@ -116,7 +126,7 @@ apiRouter.post("/movies/add", async (req, res) => {
   }
 });
 
-apiRouter.post("/movies/update", (req, res) => {
+apiRouter.post("/movies/update", async (req, res) => {
   const updatedMovie = req.body;
 
   if (!updatedMovie || !updatedMovie.id) {
@@ -124,7 +134,8 @@ apiRouter.post("/movies/update", (req, res) => {
       msg: "Invalid request. Movie object with a valid ID is required.",
     });
   }
-  const movieIndex = movies.findIndex((m) => m.id === updatedMovie.id);
+  const movieIndex = await DB.getMovieID(updatedMovie.id);
+
   if (movieIndex === -1) {
     return res.status(404).json({ msg: "Movie not found" });
   }
@@ -142,15 +153,18 @@ async function createUser(username, password) {
     password: passwordHash,
     token: uuid.v4(),
   };
-  users.push(user);
+  await DB.addUser(user);
 
   return user;
 }
 
 async function findUser(field, value) {
   if (!value) return null;
-
-  return users.find((u) => u[field] === value);
+  
+  if (field === 'token') {
+    return DB.getUserByToken(value);
+  }
+  return DB.getUser(value);
 }
 
 function setAuthCookie(res, authToken) {

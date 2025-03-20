@@ -52,7 +52,7 @@ export default function App() {
         localStorage.removeItem('user');
         localStorage.removeItem('movies');
         // props.onLogout();
-        // navigate("/");
+        navigate("/");
       });
   }
 
