@@ -30,7 +30,7 @@ export function Home() {
   const handleRating = async (score) => {
     const currentUser = JSON.parse(localStorage.getItem("user")) || {};
 
-    const updatedMovie = {
+    const { _id, ...updatedMovie } = {
       ...movie,
       totalScore: movie.totalScore + score,
       totalNumberOfRatings: movie.totalNumberOfRatings + 1,
@@ -40,8 +40,6 @@ export function Home() {
     updatedMovie.rating = parseFloat(
       (updatedMovie.totalScore / updatedMovie.totalNumberOfRatings).toFixed(1)
     );
-
-    saveMovieToLocalStorage(updatedMovie);
 
     try {
       const response = await fetch("/api/movies/update", {
@@ -57,6 +55,7 @@ export function Home() {
       console.error("Error updating movie:", error);
     }
 
+    saveMovieToLocalStorage(updatedMovie);
     fetchNextUnratedMovie();
   };
 
@@ -170,7 +169,7 @@ export function Home() {
                 className="form-control bg-secondary text"
               />
               <br />
-              <label htmlFor="current-description">Description/Actors:</label>
+              <label htmlFor="current-description">Actors:</label>
               <textarea
                 id="current-description"
                 name="description"
@@ -206,7 +205,7 @@ export function Home() {
                 className="form-control bg-secondary text"
               />
               <br />
-              <label htmlFor="recommended-description">Description/Actors:</label>
+              <label htmlFor="recommended-description">Actors:</label>
               <textarea
                 id="recommended-description"
                 name="description"

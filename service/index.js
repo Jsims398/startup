@@ -4,7 +4,7 @@ const express = require("express");
 const uuid = require("uuid");
 const app = express();
 const authCookieName = "token";
-const DB = require('./database.js');
+const DB = require("./database.js");
 DB.connect();
 
 // let movies = [
@@ -61,16 +61,14 @@ apiRouter.post("/auth/create", async (req, res) => {
 
 apiRouter.post("/auth/login", async (req, res) => {
   const user = await findUser("username", req.body.username);
-  if (user && 
-    (await bcrypt.compare(req.body.password, user.password))) {
+  if (user && (await bcrypt.compare(req.body.password, user.password))) {
     user.token = uuid.v4();
     const movies = [];
     await DB.updateUser(user);
     await DB.getMovies(movies);
     setAuthCookie(res, user.token);
     res.send({ username: user.username, movies: movies });
-  } 
-  else {
+  } else {
     res.status(401).json({ msg: "Invalid username or password" });
   }
 });
@@ -104,23 +102,34 @@ apiRouter.post("/movies/add", async (req, res) => {
     }
 
     const addedMovies = [];
+    movies = await DB.getMovies();
+
     for (const movieData of data.description) {
       const newMovie = {
-        id: movies.length + 1,
+        id: movies.length + 1 + addedMovies.length,
         title: movieData["#TITLE"] || "Unknown Title",
-        description: `${movieData["#ACTORS"] || "No actors listed"}, ${movieData["#YEAR"] || "Unknown Year"}`,
+        description: `${movieData["#ACTORS"] || "No actors listed"}, ${
+          movieData["#YEAR"] || "Unknown Year"
+        }`,
         rating: 0.0,
         totalNumberOfRatings: 0,
         totalScore: 0,
         ratedBy: [],
       };
 
-      addedMovies.push(newMovie); 
+      const movieExists = movies.some(
+        (movie) => movie.title === newMovie.title
+      );
+      if (!movieExists) {
+        addedMovies.push(newMovie);
+      }
     }
     await DB.addMovies(addedMovies);
     movies = await DB.getMovies();
+
     res.status(201).json({ msg: "Movies added successfully", movies: movies });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Error fetching movies:", error);
     res.status(500).json({ msg: "Internal server error" });
   }
@@ -134,13 +143,16 @@ apiRouter.post("/movies/update", async (req, res) => {
       msg: "Invalid request. Movie object with a valid ID is required.",
     });
   }
+
   const movieIndex = await DB.getMovieID(updatedMovie.id);
 
   if (movieIndex === -1) {
     return res.status(404).json({ msg: "Movie not found" });
   }
 
-  movies[movieIndex] = { ...movies[movieIndex], ...updatedMovie };
+  await DB.updateMovie(updatedMovie);
+
+  const movies = await DB.getMovies();
 
   res.status(200).json({ msg: "Movie updated", movies: movies });
 });
@@ -160,8 +172,8 @@ async function createUser(username, password) {
 
 async function findUser(field, value) {
   if (!value) return null;
-  
-  if (field === 'token') {
+
+  if (field === "token") {
     return DB.getUserByToken(value);
   }
   return DB.getUser(value);

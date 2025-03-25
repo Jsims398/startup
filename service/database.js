@@ -40,7 +40,13 @@ async function updateUser(user) {
 }
 
 async function getMovies() {
-  return await movieCollection.find().toArray();
+  try {
+    const movies = await movieCollection.find({}).toArray();
+    return movies.length ? movies : [];
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    return [];
+  }
 }
 
 async function getMovieID(id) {
@@ -60,8 +66,19 @@ async function addMovie(movie) {
 }
 
 async function updateMovie(movie) {
-  return await movieCollection.updateOne({ id: movie.id }, { $set: movie });
+  try {
+    const result = await movieCollection.updateOne({ id: movie.id }, { $set: movie });
+    if (result.matchedCount === 0) {
+      throw new Error('Movie not found');
+    }
+    return result;
+  } 
+  catch (error) {
+    console.error('Error updating movie:', error);
+    throw error;
+  }
 }
+
 
 module.exports = {
   connect,
