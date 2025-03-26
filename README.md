@@ -108,27 +108,26 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Node.js/Express HTTP service** - 
+- [x] **Node.js/Express HTTP service** -
       Used express to add the cookies and the front end to manage the calls to the backend.
-- [x] **Static middleware for frontend** - 
+- [x] **Static middleware for frontend** -
       Added local endpoints to account for the backend being called.
-- [x] **Calls to third party endpoints** - 
+- [x] **Calls to third party endpoints** -
       Used the database look up in add movie that searches for your title and adds all movies with that title.
-- [x] **Backend service endpoints** - 
+- [x] **Backend service endpoints** -
       Using the service > index.js created the api endpoints so that we can call the backend stroage for the data.
-- [x] **Frontend calls service endpoints** - 
+- [x] **Frontend calls service endpoints** -
       Manipulated the rating feature so that the data gets updated in both locations.
-
 
 ## 🚀 DB/Login deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **User registration** - I did not complete this part of the deliverable.
-- [ ] **User login and logout** - I did not complete this part of the deliverable.
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Restricts functionality based on authentication** - I did not complete this part of the deliverable.
+- [x] **User registration** - I followed the instructions and example and implemented it like Simon
+- [x] **User login and logout** - Using the simmilar concepts with my own twist I store the user and the movies in local storage when the user logs in and then remove them when they log out.
+- [x] **Stores data in MongoDB** - Connection to Mongo just as in Simon
+- [x] **Stores credentials in MongoDB** - Pursistant for the movies and the users
+- [x] **Restricts functionality based on authentication** - movies and actions reduced based on permissions and if user is logged on.
 
 ## 🚀 WebSocket deliverable
 
