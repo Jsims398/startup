@@ -42,7 +42,7 @@ async function updateUser(user) {
 async function getMovies() {
   try {
     const movies = await movieCollection.find({}).toArray();
-    return movies.length ? movies : [];
+    return movies;
   } catch (error) {
     console.error("Error fetching movies:", error);
     return [];

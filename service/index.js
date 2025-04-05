@@ -6,6 +6,7 @@ const app = express();
 const authCookieName = "token";
 const DB = require("./database.js");
 DB.connect();
+const { peerProxy } = require("./peerProxy.js");
 
 // let movies = [
 //   {
@@ -63,9 +64,9 @@ apiRouter.post("/auth/login", async (req, res) => {
   const user = await findUser("username", req.body.username);
   if (user && (await bcrypt.compare(req.body.password, user.password))) {
     user.token = uuid.v4();
-    const movies = [];
+    let movies = [];
     await DB.updateUser(user);
-    await DB.getMovies(movies);
+    movies = await DB.getMovies();
     setAuthCookie(res, user.token);
     res.send({ username: user.username, movies: movies });
   } else {
@@ -128,8 +129,7 @@ apiRouter.post("/movies/add", async (req, res) => {
     movies = await DB.getMovies();
 
     res.status(201).json({ msg: "Movies added successfully", movies: movies });
-  } 
-  catch (error) {
+  } catch (error) {
     console.error("Error fetching movies:", error);
     res.status(500).json({ msg: "Internal server error" });
   }
@@ -187,6 +187,8 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-app.listen(port, () => {
+httpService = app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+peerProxy(httpService);

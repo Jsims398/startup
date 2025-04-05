@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MovieRating, MovieNotifier } from "./notifications";
 
 export function Home() {
   const [movie, setMovie] = useState({
@@ -54,7 +55,8 @@ export function Home() {
     } catch (error) {
       console.error("Error updating movie:", error);
     }
-
+    MovieNotifier.broadcastEvent(currentUser, MovieRating.Movie, {
+      msg: `Rated movie "${updatedMovie.title}" with ${score} stars.`,});
     saveMovieToLocalStorage(updatedMovie);
     fetchNextUnratedMovie();
   };
@@ -128,10 +130,10 @@ export function Home() {
     fetchAllMovies();
     fetchRecommendedMovie();
     const interval = setInterval(() => {
-      fetchRecommendedMovie(); 
+      fetchRecommendedMovie();
     }, 5000);
     return () => clearInterval(interval);
-  }, []); 
+  }, []);
 
   return (
     <main className="container-fluid text-center">
