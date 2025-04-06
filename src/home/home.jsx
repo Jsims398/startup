@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MovieRating, MovieNotifier } from "./notifications";
+import { MovieEvent, MovieNotifier } from "./movieNotifier.js";
 
 export function Home() {
   const [movie, setMovie] = useState({
@@ -55,8 +55,8 @@ export function Home() {
     } catch (error) {
       console.error("Error updating movie:", error);
     }
-    MovieNotifier.broadcastEvent(currentUser, MovieRating.Movie, {
-      msg: `Rated movie "${updatedMovie.title}" with ${score} stars.`,});
+    MovieNotifier.broadcastEvent(currentUser, "rating 1", "this happened");
+
     saveMovieToLocalStorage(updatedMovie);
     fetchNextUnratedMovie();
   };
@@ -222,6 +222,11 @@ export function Home() {
             </div>
           </div>
         </div>
+        <div className="Users">
+          Player
+          <span className="player-name">{userName}</span>
+          <div id="player-messages">{createMessageArray()}</div>
+        </div>
       </div>
     </main>
   );
@@ -269,4 +274,45 @@ export function MovieCarousel({ allMovies }) {
       </button>
     </div>
   );
+}
+
+export function Users() {
+  const [userName] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
+  const [events, setEvent] = React.useState([]);
+
+  React.useEffect(() => {
+    MovieNotifier.addHandler(handleGameEvent);
+
+    return () => {
+      MovieNotifier.removeHandler(handleGameEvent);
+    };
+  });
+
+  function handleGameEvent(event) {
+    setEvent([...events, event]);
+  }
+
+  function createMessageArray() {
+    const messageArray = [];
+    for (const [i, event] of events.entries()) {
+      let message = "unknown";
+      if (event.type === GameEvent.End) {
+        message = `scored ${event.value.score}`;
+      } else if (event.type === GameEvent.Start) {
+        message = `started a new game`;
+      } else if (event.type === GameEvent.System) {
+        message = event.value.msg;
+      }
+
+      messageArray.push(
+        <div key={i} className="event">
+          <span className={"player-event"}>{event.from.split("@")[0]}</span>
+          {message}
+        </div>
+      );
+    }
+    return messageArray;
+  }
 }

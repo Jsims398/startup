@@ -77,6 +77,7 @@ export function Login(props) {
                     className="form-control"
                     placeholder="Username"
                     value={username}
+                    autocomplete="current-username"
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
@@ -86,6 +87,7 @@ export function Login(props) {
                     className="form-control"
                     placeholder="Password"
                     value={password}
+                    autocomplete="current-password"
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>

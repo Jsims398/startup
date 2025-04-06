@@ -1,14 +1,14 @@
-const { WebSocketServer } = require('ws');
+const { WebSocketServer } = require("ws");
 
 function peerProxy(httpServer) {
   // Create a websocket object
   const socketServer = new WebSocketServer({ server: httpServer });
 
-  socketServer.on('connection', (socket) => {
+  socketServer.on("connection", (socket) => {
     socket.isAlive = true;
 
     // Forward messages to everyone except the sender
-    socket.on('message', function message(data) {
+    socket.on("message", function message(data) {
       socketServer.clients.forEach((client) => {
         if (client !== socket && client.readyState === WebSocket.OPEN) {
           client.send(data);
@@ -17,7 +17,7 @@ function peerProxy(httpServer) {
     });
 
     // Respond to pong messages by marking the connection alive
-    socket.on('pong', () => {
+    socket.on("pong", () => {
       socket.isAlive = true;
     });
   });

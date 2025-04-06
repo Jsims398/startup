@@ -1,14 +1,14 @@
-const MovieRating = {
+const MovieEvent = {
   System: "system",
-  Movie: "movie",
-  Rating: "rating",
+  Rate: "gameEnd",
+  Start: "gameStart",
 };
 
-class Notification {
-  constructor(from, message, type) {
-    this.message = message;
-    this.type = type;
+class EventMessage {
+  constructor(from, rating, value) {
     this.from = from;
+    this.rating = rating;
+    this.value = value;
   }
 }
 
@@ -19,17 +19,19 @@ class MovieEventNotifier {
   constructor() {
     let port = window.location.port;
     const protocol = window.location.protocol === "http:" ? "ws" : "wss";
+
     this.socket = new WebSocket(
       `${protocol}://${window.location.hostname}:${port}/ws`
     );
+
     this.socket.onopen = (event) => {
       this.receiveEvent(
-        new Notification("WTW", MovieRating.System, { msg: "connected" })
+        new EventMessage("WTW", MovieEvent.System, { msg: "connected" })
       );
     };
     this.socket.onclose = (event) => {
       this.receiveEvent(
-        new Notification("WTW", MovieRating.System, { msg: "disconnected" })
+        new EventMessage("WTW", MovieEvent.System, { msg: "disconnected" })
       );
     };
     this.socket.onmessage = async (msg) => {
@@ -40,8 +42,8 @@ class MovieEventNotifier {
     };
   }
 
-  broadcastEvent(from, type, value) {
-    const event = new Notification(from, type, value);
+  broadcastEvent(from, rating, value) {
+    const event = new EventMessage(from, rating, value);
     this.socket.send(JSON.stringify(event));
   }
 
@@ -65,4 +67,4 @@ class MovieEventNotifier {
 }
 
 const MovieNotifier = new MovieEventNotifier();
-export { MovieRating, MovieNotifier };
+export { MovieEvent, MovieNotifier };

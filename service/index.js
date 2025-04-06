@@ -3,9 +3,7 @@ const bcrypt = require("bcryptjs");
 const express = require("express");
 const uuid = require("uuid");
 const app = express();
-const authCookieName = "token";
 const DB = require("./database.js");
-DB.connect();
 const { peerProxy } = require("./peerProxy.js");
 
 // let movies = [
@@ -40,6 +38,8 @@ const { peerProxy } = require("./peerProxy.js");
 //     ratedBy: [],
 //   },
 // ];
+DB.connect();
+const authCookieName = "token";
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 app.use(express.json());
