@@ -28,26 +28,19 @@ class MovieEventNotifier {
   constructor() {
     let port = window.location.port;
     const protocol = window.location.protocol === "http:" ? "ws" : "wss";
-
-    // console.log(
-    //   `Connecting to WebSocket at ${protocol}://${window.location.hostname}:${port}/ws`
-    // );
-
     this.socket = new WebSocket(
       `${protocol}://${window.location.hostname}:${port}/ws`
     );
 
     this.socket.onopen = (event) => {
-      // console.log("WebSocket connected");
       this.receiveEvent(
-        new EventMessage("System", MovieEvent.System, {
-          msg: "connected to server",
+        new EventMessage("", MovieEvent.System, {
+          msg: "Connected to server",
         })
       );
     };
 
     this.socket.onclose = (event) => {
-      console.log("WebSocket disconnected");
       this.receiveEvent(
         new EventMessage("System", MovieEvent.System, {
           msg: "Disconnected from server",
@@ -66,11 +59,18 @@ class MovieEventNotifier {
 
     this.socket.onmessage = async (msg) => {
       try {
-        console.log("Received WebSocket message:", msg.data);
-        const event = JSON.parse(msg.data);
-        console.log("Parsed event:", event);
+        let jsonData;
+        if (msg.data instanceof Blob) {
+          jsonData = await msg.data.text();
+        } else {
+          jsonData = msg.data;
+        }
+
+        const event = JSON.parse(jsonData);
+        // console.log("Parsed event:", event);
         this.receiveEvent(event);
-      } catch (error) {
+      } 
+      catch (error) {
         console.error("Error processing message:", error);
       }
     };
@@ -82,20 +82,17 @@ class MovieEventNotifier {
 
     if (this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(JSON.stringify(event));
-    } 
-    else {
+    } else {
       console.warn("WebSocket not connected, can't send message");
       this.receiveEvent(event);
     }
   }
 
   addHandler(handler) {
-    console.log("Adding event handler");
     this.handlers.push(handler);
   }
 
   removeHandler(handler) {
-    console.log("Removing event handler");
     this.handlers = this.handlers.filter((h) => h !== handler);
   }
 

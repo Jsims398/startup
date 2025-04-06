@@ -10,8 +10,6 @@ function peerProxy(httpServer) {
     connections.add(socket);
     socket.on("message", function message(data) {
       try {
-        // console.log(`Received message: ${data}`);
-
         const parsedData = JSON.parse(data);
         socketServer.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
@@ -23,20 +21,12 @@ function peerProxy(httpServer) {
       }
     });
 
-    // Respond to pong messages by marking the connection alive
     socket.on("pong", () => {
       socket.isAlive = true;
     });
-
-    // Handle disconnection
     socket.on("close", () => {
       connections.delete(socket);
-      // console.log(
-      //   "Client disconnected, remaining connections:",
-      //   connections.size
-      // );
     });
-
     socket.on("error", (error) => {
       console.error("WebSocket error:", error);
       connections.delete(socket);
@@ -55,7 +45,7 @@ function peerProxy(httpServer) {
     });
   }, 10000);
 
-  console.log("WebSocket server initialized");
+  // console.log("WebSocket server initialized");
 }
 
 module.exports = { peerProxy };
