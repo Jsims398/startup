@@ -18,18 +18,33 @@ export function Home() {
   });
 
   const [allMovies, setAllMovies] = useState([]);
-  const [currentUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || {}
-  );
+  const [currentUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     fetchNextUnratedMovie();
     fetchAllMovies();
     fetchRecommendedMovie();
+
+    const handleMovieEvent = (event) => {
+      setEvents((prevEvents) => [...prevEvents, event]);
+    };
+
+    MovieNotifier.addHandler(handleMovieEvent);
+
+    const interval = setInterval(() => {
+      fetchRecommendedMovie();
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      MovieNotifier.removeHandler(handleMovieEvent);
+    };
   }, []);
 
   const handleRating = async (score) => {
-    const currentUser = JSON.parse(localStorage.getItem("user")) || {};
+    const currentUser = JSON.parse(localStorage.getItem("user"));
 
     const { _id, ...updatedMovie } = {
       ...movie,
@@ -55,7 +70,16 @@ export function Home() {
     } catch (error) {
       console.error("Error updating movie:", error);
     }
-    MovieNotifier.broadcastEvent(currentUser, "rating 1", "this happened");
+
+    const ratingText =
+      score === 5 ? "liked" : score === 3 ? "might watch" : "disliked";
+    const message = `${ratingText} "${movie.title}"`;
+
+    MovieNotifier.broadcastEvent(currentUser, MovieEvent.Rating || "rating", {
+      movie: movie.title,
+      score,
+      message,
+    });
 
     saveMovieToLocalStorage(updatedMovie);
     fetchNextUnratedMovie();
@@ -68,7 +92,9 @@ export function Home() {
   const fetchNextUnratedMovie = () => {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
     const nextMovie = movies.find(
-      (movie) => !movie.ratedBy || !movie.ratedBy.includes(currentUser)
+      (movie) =>
+        !movie.ratedBy ||
+        !movie.ratedBy.some((user) => user.name === currentUser)
     );
     if (nextMovie) {
       const movieWithDefaults = {
@@ -108,7 +134,8 @@ export function Home() {
   const fetchRecommendedMovie = () => {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
     const ratedMovies = movies.filter(
-      (movie) => movie.ratedBy && movie.ratedBy.includes(currentUser)
+      (movie) =>
+        movie.ratedBy && movie.ratedBy.some((user) => user.name === currentUser)
     );
     if (ratedMovies.length > 0) {
       const topRated = [...ratedMovies].sort((a, b) => b.rating - a.rating)[0];
@@ -125,15 +152,39 @@ export function Home() {
     }
   };
 
-  useEffect(() => {
-    fetchNextUnratedMovie();
-    fetchAllMovies();
-    fetchRecommendedMovie();
-    const interval = setInterval(() => {
-      fetchRecommendedMovie();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  const createMessageArray = () => {
+    return events.map((event, index) => {
+      let message = "unknown event";
+      const userName =
+        typeof event.from === "string" ? event.from.split("@")[0] : event.from;
+
+      if (event.value && event.value.msg) {
+        message = event.value.msg;
+      } else if (event.value && event.value.message) {
+        message = event.value.message;
+      } else if (
+        event.rating === MovieEvent.Rating ||
+        event.rating === "rating"
+      ) {
+        message = event.value
+          ? event.value.message || `rated a movie ${event.value.score || ""}`
+          : "rated a movie";
+      } else if (
+        event.rating === MovieEvent.System ||
+        event.rating === "system"
+      ) {
+        message = event.value
+          ? event.value.msg || "system event"
+          : "system event";
+      }
+
+      return (
+        <div key={index} className="event">
+          <span className="player-event">{userName}</span> {message}
+        </div>
+      );
+    });
+  };
 
   return (
     <main className="container-fluid text-center">
@@ -222,10 +273,24 @@ export function Home() {
             </div>
           </div>
         </div>
-        <div className="Users">
-          Player
-          <span className="player-name">{userName}</span>
-          <div id="player-messages">{createMessageArray()}</div>
+        <div>
+          <h3>User Activity</h3>
+        </div>
+        <div className="card mt-4 mb-4 bg-secondary border-2 border-white">
+          <div className="text-white">
+            <span className="player-name text-muted">
+              Current User: {currentUser}
+            </span>
+          </div>
+          <div className="card-body">
+            <div id="player-messages" className="message-container">
+              {events.length === 0 ? (
+                <p className="text-muted">No activity yet. Rate some movies!</p>
+              ) : (
+                createMessageArray()
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -245,74 +310,49 @@ export function MovieCarousel({ allMovies }) {
   return (
     <div className="carousel slide">
       <div className="carousel-inner">
-        {allMovies.map((m, index) => (
-          <div
-            key={m.id}
-            className={`carousel-item ${
-              index === currentIndex ? "active" : ""
-            }`}
-          >
-            <h3>{m.title}</h3>
-            <p>{m.description}</p>
-            <p>Rating: {m.rating || "Not yet rated"}</p>
+        {allMovies.length === 0 ? (
+          <div className="carousel-item active">
+            <p>No movies available</p>
           </div>
-        ))}
+        ) : (
+          allMovies.map((m, index) => (
+            <div
+              key={m.id || index}
+              className={`carousel-item ${
+                index === currentIndex ? "active" : ""
+              }`}
+            >
+              <h3>{m.title}</h3>
+              <p>{m.description}</p>
+              <p>Rating: {m.rating || "Not yet rated"}</p>
+            </div>
+          ))
+        )}
       </div>
-      <button
-        className="carousel-control-prev"
-        type="button"
-        onClick={() => nextItem(-1)}
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        onClick={() => nextItem(1)}
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-      </button>
+      {allMovies.length > 1 && (
+        <>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            onClick={() => nextItem(-1)}
+          >
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            onClick={() => nextItem(1)}
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+          </button>
+        </>
+      )}
     </div>
   );
-}
-
-export function Users() {
-  const [userName] = useState(
-    JSON.parse(localStorage.getItem("user")) || {}
-  );
-  const [events, setEvent] = React.useState([]);
-
-  React.useEffect(() => {
-    MovieNotifier.addHandler(handleGameEvent);
-
-    return () => {
-      MovieNotifier.removeHandler(handleGameEvent);
-    };
-  });
-
-  function handleGameEvent(event) {
-    setEvent([...events, event]);
-  }
-
-  function createMessageArray() {
-    const messageArray = [];
-    for (const [i, event] of events.entries()) {
-      let message = "unknown";
-      if (event.type === GameEvent.End) {
-        message = `scored ${event.value.score}`;
-      } else if (event.type === GameEvent.Start) {
-        message = `started a new game`;
-      } else if (event.type === GameEvent.System) {
-        message = event.value.msg;
-      }
-
-      messageArray.push(
-        <div key={i} className="event">
-          <span className={"player-event"}>{event.from.split("@")[0]}</span>
-          {message}
-        </div>
-      );
-    }
-    return messageArray;
-  }
 }

@@ -6,38 +6,6 @@ const app = express();
 const DB = require("./database.js");
 const { peerProxy } = require("./peerProxy.js");
 
-// let movies = [
-//   {
-//     id: 1,
-//     title: "Inception",
-//     description:
-//       "A thief who steals corporate secrets through the use of dream-sharing technology.",
-//     rating: 4.8,
-//     totalNumberOfRatings: 100,
-//     totalScore: 480,
-//     ratedBy: [],
-//   },
-//   {
-//     id: 2,
-//     title: "The Matrix",
-//     description:
-//       "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
-//     rating: 4.7,
-//     totalNumberOfRatings: 90,
-//     totalScore: 423,
-//     ratedBy: [],
-//   },
-//   {
-//     id: 3,
-//     title: "Interstellar",
-//     description:
-//       "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-//     rating: 4.6,
-//     totalNumberOfRatings: 80,
-//     totalScore: 368,
-//     ratedBy: [],
-//   },
-// ];
 DB.connect();
 const authCookieName = "token";
 
