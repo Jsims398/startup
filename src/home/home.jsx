@@ -43,6 +43,28 @@ export function Home() {
     };
   }, []);
 
+  const getMovies = async () => {
+    try {
+      const response = await fetch("/api/movies/get", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.movies && data.movies.length > 0) {
+          localStorage.setItem("movies", JSON.stringify(data.movies));
+        } else {
+          console.log("No movies found, local storage remains unchanged.");
+        }
+      } else {
+        console.error("Failed to fetch movies:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    }
+  };
+
   const handleRating = async (score) => {
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -82,6 +104,7 @@ export function Home() {
     });
 
     saveMovieToLocalStorage(updatedMovie);
+    getMovies();
     fetchNextUnratedMovie();
   };
 
@@ -166,6 +189,7 @@ export function Home() {
         event.rating === MovieEvent.Rating ||
         event.rating === "rating"
       ) {
+        getMovies();
         message = event.value
           ? event.value.message || `rated a movie ${event.value.score || ""}`
           : "rated a movie";
@@ -173,6 +197,7 @@ export function Home() {
         event.rating === MovieEvent.System ||
         event.rating === "system"
       ) {
+        getMovies();
         message = event.value
           ? event.value.msg || "system event"
           : "system event";

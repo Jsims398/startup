@@ -42,6 +42,16 @@ apiRouter.post("/auth/login", async (req, res) => {
   }
 });
 
+apiRouter.post("/movies/get", async (req, res) => {
+  const user = await findUser("token", req.cookies[authCookieName]);
+  if (user) {
+    const movies = await DB.getMovies();
+    res.send({ movies });
+  } else {
+    res.status(401).json({ msg: "Unauthorized" });
+  }
+});
+
 apiRouter.delete("/auth/logout", async (req, res) => {
   const user = await findUser("token", req.cookies[authCookieName]);
   if (user) {
