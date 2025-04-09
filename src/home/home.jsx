@@ -18,8 +18,9 @@ export function Home() {
   });
 
   const [allMovies, setAllMovies] = useState([]);
-  const [currentUser] = useState(JSON.parse(localStorage.getItem("user")));
-
+  const [currentUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export function Home() {
 
   const handleRating = async (score) => {
     const currentUser = JSON.parse(localStorage.getItem("user"));
-
+    getMovies();
     const { _id, ...updatedMovie } = {
       ...movie,
       totalScore: movie.totalScore + score,
@@ -104,7 +105,6 @@ export function Home() {
     });
 
     saveMovieToLocalStorage(updatedMovie);
-    getMovies();
     fetchNextUnratedMovie();
   };
 
@@ -116,8 +116,7 @@ export function Home() {
     const movies = JSON.parse(localStorage.getItem("movies") || "[]");
     const nextMovie = movies.find(
       (movie) =>
-        !movie.ratedBy ||
-        !movie.ratedBy.some((user) => user.name === currentUser)
+        !movie.ratedBy || !movie.ratedBy.some((user) => user === currentUser)
     );
     if (nextMovie) {
       const movieWithDefaults = {
@@ -176,6 +175,7 @@ export function Home() {
   };
 
   const createMessageArray = () => {
+    getMovies();
     return events.map((event, index) => {
       let message = "unknown event";
       const userName =
@@ -189,7 +189,6 @@ export function Home() {
         event.rating === MovieEvent.Rating ||
         event.rating === "rating"
       ) {
-        getMovies();
         message = event.value
           ? event.value.message || `rated a movie ${event.value.score || ""}`
           : "rated a movie";
@@ -197,7 +196,6 @@ export function Home() {
         event.rating === MovieEvent.System ||
         event.rating === "system"
       ) {
-        getMovies();
         message = event.value
           ? event.value.msg || "system event"
           : "system event";
